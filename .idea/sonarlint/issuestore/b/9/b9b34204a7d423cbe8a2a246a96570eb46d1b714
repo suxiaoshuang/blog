@@ -1,0 +1,9 @@
+
+o	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(НЪв…
+P
+java:S1854(":Remove this useless assignment to local variable "putRet".(«ЫЫб
+A
+java:S1481("+Remove this unused "putRet" local variable.(«ЫЫб
+\
+java:S1128
+"ARemove this unused import 'org.apache.commons.lang3.StringUtils'.(Шњјєъяяяя

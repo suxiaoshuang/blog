@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blog.personal.dao.mapper.CommentMapper">
+
+
+    <select id="queryArticleIdCount" resultType="com.blog.personal.vo.CommentCountVO">
+        SELECT article_id, COUNT(*) AS count FROM blog.blog_comment WHERE article_id = #{articleId} GROUP BY article_id;
+    </select>
+</mapper>
