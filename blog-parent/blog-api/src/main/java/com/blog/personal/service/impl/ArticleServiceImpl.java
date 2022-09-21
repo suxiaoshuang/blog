@@ -3,9 +3,8 @@ package com.blog.personal.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.blog.personal.dao.pojo.Article;
-import com.blog.personal.dao.pojo.ArticleBody;
-import com.blog.personal.dao.pojo.SysUser;
+import com.blog.personal.dao.mapper.ArticleMapper;
+import com.blog.personal.dao.pojo.*;
 import com.blog.personal.service.ArticleService;
 import com.blog.personal.service.ThreadService;
 import com.blog.personal.vo.*;
@@ -139,9 +138,31 @@ public class ArticleServiceImpl implements ArticleService {
             article.setCategoryId(articleParam.getCategoryVo().getId());
         }
 
-this.articleMapper.insert(article);
-
+        this.articleMapper.insert(article);
         List<TagVo> tagList = articleParam.getTags();
+        //如果标签不为空，则添加标签信息
+        if(tagList != null){
+            for(TagVo tag : tagList){
+                ArticleTag articleTag = new ArticleTag();
+                articleTag.setArticleId(article.getId());
+                articleTag.setTagId(tag.getId());
+                articleTagMapper.insert(articleTag);
+            }
+        }
+
+        ArticleBody articleBody = new ArticleBody();
+        if(articleParam.getBody().getContent() != null && articleParam.getBody().getContentHtml() !=null){
+            articleBody.setArticleId(article.getId());
+            articleBody.setContent(articleParam.getBody().getContent());
+            articleBody.setContent(articleParam.getBody().getContentHtml());
+            this.articleBodyMapper.insert(articleBody);
+            article.setBodyId(articleBody.getId());
+        }
+
+        this.articleMapper.updateById(article);
+        ArticleVo articleVo = new ArticleVo();
+        articleVo.setId(article.getId());
+        return Result.success(articleVo);
 
     }
 }
